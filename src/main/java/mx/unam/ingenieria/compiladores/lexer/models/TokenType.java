@@ -1,4 +1,4 @@
-package mx.unam.ingenieria.compiladores.lexer.components;
+package mx.unam.ingenieria.compiladores.lexer.models;
 
 /**
  * Definition of the categories in which a token can be classified
