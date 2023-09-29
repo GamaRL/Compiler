@@ -25,8 +25,7 @@ public class LexemeExtractorFromLine implements ILexemeExtractor {
         case '(': // Right Parenthesis
         case ')': // Left Parenthesis
         case ';': // Semicolon
-        case '=': // Equals operator
-        case ':': // Assignment operator
+        case '=': // Equals or assignment operator
           possibleLexemesIndexes.add(i);
       }
     }
