@@ -7,8 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import mx.unam.ingenieria.compiladores.lexer.components.ILexemeClassifier;
-import mx.unam.ingenieria.compiladores.lexer.components.ILexemeExtractor;
+import mx.unam.ingenieria.compiladores.lexer.components.ILexer;
+import mx.unam.ingenieria.compiladores.lexer.models.Token;
 import mx.unam.ingenieria.compiladores.lexer.models.TokenType;
 
 @SpringBootApplication
@@ -16,9 +16,7 @@ public class LexerApplication implements CommandLineRunner {
 
 	private static Logger LOG = LoggerFactory.getLogger(LexerApplication.class);
 	@Autowired
-	private ILexemeExtractor extractor;
-	@Autowired
-	private ILexemeClassifier classifier;
+	private ILexer lexer;
 
 	public static void main(String[] args) {
 		LOG.info("STARTING THE APPLICATION");
@@ -31,13 +29,13 @@ public class LexerApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		LOG.info("EXECUTING: command line runner");
 
-		var lexemes = extractor.getLexemes("$hola $mundo =? @if ( ) [-12];");
-		lexemes.stream().forEach(l -> {
-			if(classifier.getLexemeType(l) == TokenType.INVALID)
-			LOG.error("args[{}]: {}", "INVALID LEXEME", "'" + l + "'");
+		while(lexer.hasAnotherToken()) {
+			Token t = lexer.getNextToken();
+			if(t.getType() == TokenType.INVALID)
+			LOG.error("args[{}]: {}", "INVALID LEXEME", "'" + t.getValue() + "'");
 			else
-			LOG.info("args[{}]: {}", "NEW LEXEME", "'" + l + "'");
+			LOG.info("args[{}]: {}", "NEW LEXEME", "'" + t.getValue() + "'");
 		}
-		);
+
 	}
 }

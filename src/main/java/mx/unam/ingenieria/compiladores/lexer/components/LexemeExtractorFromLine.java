@@ -18,6 +18,8 @@ public class LexemeExtractorFromLine implements ILexemeExtractor {
     List<Integer> possibleLexemesIndexes = new ArrayList<>();
     List<String> possibleLexemesList = new ArrayList<>();
 
+    line = line.trim();
+
     for (int i = 0; i < line.length(); i++) {
       switch (line.charAt(i)) {
         case '$': // Identifier
@@ -31,6 +33,8 @@ public class LexemeExtractorFromLine implements ILexemeExtractor {
       }
     }
 
+    if(!possibleLexemesIndexes.contains(0))
+      possibleLexemesIndexes.add(0, 0);
     possibleLexemesIndexes.add(line.length());
 
     for (int i = 0; i < possibleLexemesIndexes.size() - 1; i++) {
