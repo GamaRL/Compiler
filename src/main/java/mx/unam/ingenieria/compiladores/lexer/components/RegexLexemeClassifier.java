@@ -29,7 +29,7 @@ public class RegexLexemeClassifier implements ILexemeClassifier {
       return TokenType.KEY_WORD;
 
     if(assignmentPattern.matcher(lexeme).matches())
-      return TokenType.ASIGN;
+      return TokenType.ASSIGN;
 
     if(equalsPattern.matcher(lexeme).matches())
       return TokenType.EQUAL;

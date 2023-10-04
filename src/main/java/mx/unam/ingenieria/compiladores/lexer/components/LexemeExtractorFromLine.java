@@ -18,30 +18,41 @@ public class LexemeExtractorFromLine implements ILexemeExtractor {
     List<Integer> possibleLexemesIndexes = new ArrayList<>();
     List<String> possibleLexemesList = new ArrayList<>();
 
-    line = line.trim();
-
+    List<Integer> spaces = new ArrayList<>();
     for (int i = 0; i < line.length(); i++) {
       switch (line.charAt(i)) {
-        case '$': // Identifier
+        case ' ': // Blank space
+          spaces.add(i);
         case '@': // Keyword
+        case '$': // Identifier
+        case '=': // Equals or assignment operator
+        case '[': // Numeric literal
+          possibleLexemesIndexes.addAll(spaces);
+          spaces.clear();
+          if(!possibleLexemesIndexes.contains(i))
+            possibleLexemesIndexes.add(i);
+          break;
         case '(': // Right Parenthesis
         case ')': // Left Parenthesis
         case ';': // Semicolon
-        case '=': // Equals or assignment operator
-        case '[': // Numeric literal
-          possibleLexemesIndexes.add(i);
+          possibleLexemesIndexes.addAll(spaces);
+          spaces.clear();
+          if(!possibleLexemesIndexes.contains(i))
+            possibleLexemesIndexes.add(i);
+          possibleLexemesIndexes.add(i + 1);
       }
     }
 
-    if(!possibleLexemesIndexes.contains(0))
-      possibleLexemesIndexes.add(0, 0);
-    possibleLexemesIndexes.add(line.length());
+    if(!possibleLexemesIndexes.contains(line.length()))
+      possibleLexemesIndexes.add(line.length());
 
     for (int i = 0; i < possibleLexemesIndexes.size() - 1; i++) {
       String lexeme = line
         .substring(possibleLexemesIndexes.get(i), possibleLexemesIndexes.get(i+1))
         .trim();
-      possibleLexemesList.add(lexeme);
+      
+      if(!lexeme.isEmpty())
+        possibleLexemesList.add(lexeme);
     }
 
     return possibleLexemesList;

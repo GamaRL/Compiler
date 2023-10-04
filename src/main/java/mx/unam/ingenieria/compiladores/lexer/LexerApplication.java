@@ -23,11 +23,7 @@ public class LexerApplication implements ApplicationRunner {
 	private ILexer lexer;
 
 	public static void main(String[] args) {
-		LOG.info("STARTING THE APPLICATION");
-
 		SpringApplication.run(LexerApplication.class, args);
-
-		LOG.info("APPLICATION FINISHED");
 	}
 
 	public LexerApplication(ILexer lexer) {
@@ -44,12 +40,12 @@ public class LexerApplication implements ApplicationRunner {
       	while (lexer.hasAnotherToken()) {
         	Token t = lexer.getNextToken();
         	if (t.getType() == TokenType.INVALID)
-          	LOG.error("{} : {}", "INVALID LEXEME", "'" + t.getValue() + "'");
+          	LOG.error("{} : {}", "INVALID LEXEME", "'" + t.getValue() + "' at line " + lexer.getCurrentLineNumber());
         	else
-          	LOG.info("{} : {}", "NEW LEXEME", "'" + t.getValue() + "'");
+          	LOG.info("[TokenType: {}] : {}", t.getType(), "'" + t.getValue() + "'");
 				}
       } else {
-      	LOG.info("{} : {}", "Not found", "The sepecified file couldn't be found");
+      	LOG.error("{} : {}", "Not found", "The sepecified file couldn't be found");
 			}
     } else {
       LOG.error("{} : {}", "Failing", "The file-path option is not provided");

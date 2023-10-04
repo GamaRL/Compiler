@@ -23,7 +23,7 @@ public class FromFileLexer implements ILexer {
   @Value("${file-path}")
   private String filePath;
 
-  private boolean hasStarted = false;
+  private int currentLineNumber = 0;
   private List<String> lines;
   private List<String> currentLineTokens = new ArrayList<>();;
 
@@ -35,20 +35,24 @@ public class FromFileLexer implements ILexer {
     this.classifier = classifier;
   }
 
+  public int getCurrentLineNumber() {
+    return this.currentLineNumber;
+  }
+
   @Override
   public boolean hasAnotherToken() {
-    if(!hasStarted)
+    if(currentLineNumber == 0)
     return true;
     return !(currentLineTokens.isEmpty() && lines.isEmpty());
   }
 
   @Override
   public Token getNextToken() {
-    if(!hasStarted) {
+    if(currentLineNumber == 0) {
       Path p = Paths.get(filePath);
       try {
         this.lines = Files.lines(p).collect(Collectors.toList());
-        hasStarted = true;
+        currentLineNumber = 0;
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -56,6 +60,7 @@ public class FromFileLexer implements ILexer {
 
     if(currentLineTokens.isEmpty()) {
       String currentLine = this.lines.remove(0);
+      currentLineNumber++;
       currentLineTokens = extractor.getLexemes(currentLine);
     }
 
