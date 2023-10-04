@@ -9,15 +9,19 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import mx.unam.ingenieria.compiladores.lexer.models.Token;
 import mx.unam.ingenieria.compiladores.lexer.models.TokenType;
 
-@Service
+@Component
 public class FromFileLexer implements ILexer {
 	private ILexemeExtractor extractor;
 	private ILexemeClassifier classifier;
+
+  @Value("${file-path}")
+  private String filePath;
 
   private boolean hasStarted = false;
   private List<String> lines;
@@ -41,7 +45,7 @@ public class FromFileLexer implements ILexer {
   @Override
   public Token getNextToken() {
     if(!hasStarted) {
-      Path p = Paths.get("/home/gamarl/Documentos/prog.mrnt");
+      Path p = Paths.get(filePath);
       try {
         this.lines = Files.lines(p).collect(Collectors.toList());
         hasStarted = true;
