@@ -11,7 +11,7 @@ import lombok.Setter;
 @Service
 @AllArgsConstructor
 @Setter
-public class LexemeExtractorFromLine implements ILexemeExtractor {
+public class FromLineLexemeExtractor implements ILexemeExtractor {
 
   @Override
   public List<String> getLexemes(String line) {
@@ -35,6 +35,11 @@ public class LexemeExtractorFromLine implements ILexemeExtractor {
         case '(': // Right Parenthesis
         case ')': // Left Parenthesis
         case ';': // Semicolon
+        case '+': // Addition
+        case '-': // Minus
+        case '*': // Product
+        case '/': // Divison
+        case '%': // Modulo
           possibleLexemesIndexes.addAll(spaces);
           spaces.clear();
           if(!possibleLexemesIndexes.contains(i))

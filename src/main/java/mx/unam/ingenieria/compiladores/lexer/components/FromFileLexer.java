@@ -1,4 +1,3 @@
-
 package mx.unam.ingenieria.compiladores.lexer.components;
 
 import java.io.IOException;
@@ -42,7 +41,7 @@ public class FromFileLexer implements ILexer {
   @Override
   public boolean hasAnotherToken() {
     if(currentLineNumber == 0)
-    return true;
+      return true;
     return !(currentLineTokens.isEmpty() && lines.isEmpty());
   }
 
