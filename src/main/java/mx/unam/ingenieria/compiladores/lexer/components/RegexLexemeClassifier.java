@@ -9,6 +9,7 @@ import mx.unam.ingenieria.compiladores.lexer.models.TokenType;
 @Component
 public class RegexLexemeClassifier implements ILexemeClassifier {
 
+  // Definition of patterns
   private static final Pattern identifierPattern = Pattern.compile("^\\$[A-Za-z][A-Za-z0-9]*$");
   private static final Pattern keywordPattern = Pattern.compile("^@(if|else)$");
   private static final Pattern assignmentPattern = Pattern.compile("^=:$");
@@ -22,10 +23,12 @@ public class RegexLexemeClassifier implements ILexemeClassifier {
   private static final Pattern leftParenthesisPattern = Pattern.compile("^\\($");
   private static final Pattern semicolonPattern = Pattern.compile("^;$");
   private static final Pattern typePattern = Pattern.compile("^@(int)$");
+  private static final Pattern numericLiteralPattern = Pattern.compile("^\\[[0-9]+\\]$");
 
-  // ^\[-?[0-9]+\]$
-  private static final Pattern numericLiteralPattern = Pattern.compile("^\\[-?[0-9]+\\]$");
-
+  /**
+   * Given a possible lexeme, check whether it belongs 
+   * to a specific pattern and returns that TokenType.
+   */
   public TokenType getLexemeType(String lexeme) {
     if(identifierPattern.matcher(lexeme).matches())
       return TokenType.IDENTIFIER;

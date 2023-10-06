@@ -3,14 +3,9 @@ package mx.unam.ingenieria.compiladores.lexer.components;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-
-@Service
-@AllArgsConstructor
-@Setter
+@Component
 public class FromLineLexemeExtractor implements ILexemeExtractor {
 
   @Override
@@ -19,6 +14,8 @@ public class FromLineLexemeExtractor implements ILexemeExtractor {
     List<String> possibleLexemesList = new ArrayList<>();
 
     List<Integer> spaces = new ArrayList<>();
+
+    // Identifies the possible lexemes' starting positions
     for (int i = 0; i < line.length(); i++) {
       switch (line.charAt(i)) {
         case ' ': // Blank space
@@ -32,6 +29,7 @@ public class FromLineLexemeExtractor implements ILexemeExtractor {
           if(!possibleLexemesIndexes.contains(i))
             possibleLexemesIndexes.add(i);
           break;
+        // One character length lexemes
         case '(': // Right Parenthesis
         case ')': // Left Parenthesis
         case ';': // Semicolon
@@ -51,11 +49,13 @@ public class FromLineLexemeExtractor implements ILexemeExtractor {
     if(!possibleLexemesIndexes.contains(line.length()))
       possibleLexemesIndexes.add(line.length());
 
+    // Create substrings from indexes' list
     for (int i = 0; i < possibleLexemesIndexes.size() - 1; i++) {
       String lexeme = line
         .substring(possibleLexemesIndexes.get(i), possibleLexemesIndexes.get(i+1))
         .trim();
       
+      // Filter non-empty lexemes
       if(!lexeme.isEmpty())
         possibleLexemesList.add(lexeme);
     }

@@ -32,23 +32,27 @@ public class LexerApplication implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-    if (args.containsOption("file-path")) {
 
-      Path p = Paths.get(args.getOptionValues("file-path").get(0));
-			if(Files.exists(p)) {
-      	LOG.info("args[{}]: {}", "file-path", "'" + args.getOptionValues("file-path").get(0) + "'");
-      	while (lexer.hasAnotherToken()) {
-        	Token t = lexer.getNextToken();
-        	if (t.getType() == TokenType.INVALID)
-          	LOG.error("{} : {}", "INVALID LEXEME", "'" + t.getValue() + "' at line " + lexer.getCurrentLineNumber());
-        	else
-          	LOG.info("[TokenType: {}] : {}", t.getType(), "'" + t.getValue() + "'");
+		// Verifies the `file-path` argument
+		if (args.containsOption("file-path")) {
+
+			Path p = Paths.get(args.getOptionValues("file-path").get(0));
+
+			// Verifies if the provided path is an existing file
+			if (Files.exists(p)) {
+				LOG.info("args[{}]: {}", "file-path", "'" + args.getOptionValues("file-path").get(0) + "'");
+				while (lexer.hasAnotherToken()) {
+					Token t = lexer.getNextToken();
+					if (t.getType() == TokenType.INVALID)
+						LOG.error("{} : {}", "INVALID LEXEME", "'" + t.getValue() + "' at line " + lexer.getCurrentLineNumber());
+					else
+						LOG.info("[TokenType: {}] : {}", t.getType(), "'" + t.getValue() + "'");
 				}
-      } else {
-      	LOG.error("{} : {}", "Not found", "The sepecified file couldn't be found");
+			} else {
+				LOG.error("{} : {}", "Not found", "The sepecified file couldn't be found");
 			}
-    } else {
-      LOG.error("{} : {}", "Failing", "The file-path option is not provided");
-    }
+		} else {
+			LOG.error("{} : {}", "Failing", "The file-path option is not provided");
+		}
 	}
 }
