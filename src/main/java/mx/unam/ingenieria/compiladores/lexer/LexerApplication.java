@@ -11,23 +11,22 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import mx.unam.ingenieria.compiladores.lexer.components.ILexer;
-import mx.unam.ingenieria.compiladores.lexer.models.Token;
-import mx.unam.ingenieria.compiladores.lexer.models.TokenType;
+import mx.unam.ingenieria.compiladores.lexer.components.IParser;
 
 @SpringBootApplication
 public class LexerApplication implements ApplicationRunner {
 
 	private static Logger LOG = LoggerFactory.getLogger(LexerApplication.class);
 
-	private ILexer lexer;
+	//private ILexer lexer;
+	private IParser parser;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LexerApplication.class, args);
 	}
 
-	public LexerApplication(ILexer lexer) {
-		this.lexer = lexer;
+	public LexerApplication(IParser parser) {
+		this.parser = parser;
 	}
 
 	@Override
@@ -41,13 +40,8 @@ public class LexerApplication implements ApplicationRunner {
 			// Verifies if the provided path is an existing file
 			if (Files.exists(p)) {
 				LOG.info("args[{}]: {}", "file-path", "'" + args.getOptionValues("file-path").get(0) + "'");
-				while (lexer.hasAnotherToken()) {
-					Token t = lexer.getNextToken();
-					if (t.getType() == TokenType.INVALID)
-						LOG.error("{} : {}", "INVALID LEXEME", "'" + t.getValue() + "' at line " + lexer.getCurrentLineNumber());
-					else
-						LOG.info("[TokenType: {}] : {}", t.getType(), "'" + t.getValue() + "'");
-				}
+
+				parser.validate();
 			} else {
 				LOG.error("{} : {}", "Not found", "The sepecified file couldn't be found");
 			}

@@ -1,12 +1,11 @@
 package mx.unam.ingenieria.compiladores.lexer.models;
 
-public class Token {
+public class Token extends GrammarSymbol {
   private TokenType type;
-  private String value;
 
   public Token(TokenType type, String value) {
+    super(value);
     this.type = type;
-    this.value = value;
   }
 
   /**
@@ -39,5 +38,15 @@ public class Token {
    */
   public void setValue(String value) {
     this.value = value;
+  }
+
+  @Override
+  public boolean isOfSameType(Object obj) {
+    if(obj instanceof Token) {
+      Token other = (Token)obj;
+
+      return other.type == this.type;
+    }
+    return false;
   }
 }

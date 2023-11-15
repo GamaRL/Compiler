@@ -16,7 +16,7 @@ import mx.unam.ingenieria.compiladores.lexer.models.TokenType;
 
 @Component
 public class FromFileLexer implements ILexer {
-	private ILexemeExtractor extractor;
+  private ILexemeExtractor extractor;
 	private ILexemeClassifier classifier;
 
   @Value("${file-path:''}") // Injected value
