@@ -27,18 +27,6 @@ public class LRParser implements IParser {
   public boolean validate() {
     List<GrammarSymbol> stack = new ArrayList<>();
     List<List<GrammarSymbol>> grammarRules = List.of(
-        //List.of(new GrammarSymbol("Goal"), new GrammarSymbol("Sums")),
-        //List.of(new GrammarSymbol("Sums"), new GrammarSymbol("Sums"), new 
-        //Token(TokenType.PLUS, "+")),
-        //List.of(new GrammarSymbol("Sums"), new GrammarSymbol("Products")),
-        //List.of(new GrammarSymbol("Products"), new 
-        //GrammarSymbol("Products"), new Token(TokenType.PRODUCT, "*"), new 
-        //GrammarSymbol("Value")),
-        //List.of(new GrammarSymbol("Products"), new GrammarSymbol("Value")),
-        //List.of(new GrammarSymbol("Value"), new Token(TokenType.LITERAL, 
-        //"-")),
-        //List.of(new GrammarSymbol("Value"), new Token(TokenType.IDENTIFIER, 
-        // "-"))
         List.of(new GrammarSymbol("E"), new GrammarSymbol("E"), new Token(TokenType.PLUS, "+"), new GrammarSymbol("E")),
         List.of(new GrammarSymbol("E"), new GrammarSymbol("E"), new Token(TokenType.PRODUCT, "*"), new GrammarSymbol("E")),
         List.of(new GrammarSymbol("E"), new Token(TokenType.LITERAL, "-")),
