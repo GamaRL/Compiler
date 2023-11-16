@@ -7,6 +7,10 @@ public class GrammarSymbol {
     this.value = value;
   }
 
+  public static GrammarSymbol from(String s) {
+    return new GrammarSymbol(s);
+  }
+
   public boolean isOfSameType(Object obj) {
     if(obj instanceof GrammarSymbol) {
       GrammarSymbol other = (GrammarSymbol)obj;
@@ -18,6 +22,6 @@ public class GrammarSymbol {
   @Override
   public String toString() {
     
-    return "[" + value + "]";
+    return value;
   }
 }

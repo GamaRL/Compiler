@@ -2,6 +2,7 @@ package mx.unam.ingenieria.compiladores.lexer.components;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,33 +27,34 @@ public class LRParser implements IParser {
   public boolean validate() {
     List<GrammarSymbol> stack = new ArrayList<>();
     List<List<GrammarSymbol>> grammarRules = List.of(
-        // List.of(new GrammarSymbol("E"), new GrammarSymbol("E"), new
-        // Token(TokenType.PLUS, "+"), new GrammarSymbol("T")),
-        // List.of(new GrammarSymbol("E"), new GrammarSymbol("T")),
-        // List.of(new GrammarSymbol("T"), new GrammarSymbol("T"), new
-        // Token(TokenType.PRODUCT, "*"), new GrammarSymbol("F")),
-        // List.of(new GrammarSymbol("T"), new GrammarSymbol("F")),
-        // List.of(new GrammarSymbol("F"), new Token(TokenType.LEFT_PARENTHESIS, "("),
-        // new GrammarSymbol("E"), new Token(TokenType.RIGHT_PARENTHESIS, ")")),
-        // List.of(new GrammarSymbol("F"), new Token(TokenType.LITERAL, "-"))
+        //List.of(new GrammarSymbol("Goal"), new GrammarSymbol("Sums")),
+        //List.of(new GrammarSymbol("Sums"), new GrammarSymbol("Sums"), new 
+        //Token(TokenType.PLUS, "+")),
+        //List.of(new GrammarSymbol("Sums"), new GrammarSymbol("Products")),
+        //List.of(new GrammarSymbol("Products"), new 
+        //GrammarSymbol("Products"), new Token(TokenType.PRODUCT, "*"), new 
+        //GrammarSymbol("Value")),
+        //List.of(new GrammarSymbol("Products"), new GrammarSymbol("Value")),
+        //List.of(new GrammarSymbol("Value"), new Token(TokenType.LITERAL, 
+        //"-")),
+        //List.of(new GrammarSymbol("Value"), new Token(TokenType.IDENTIFIER, 
+        // "-"))
         List.of(new GrammarSymbol("E"), new GrammarSymbol("E"), new Token(TokenType.PLUS, "+"), new GrammarSymbol("E")),
-        List.of(new GrammarSymbol("E"), new GrammarSymbol("E"), new Token(TokenType.PRODUCT, "+"),
-            new GrammarSymbol("E")),
+        List.of(new GrammarSymbol("E"), new GrammarSymbol("E"), new Token(TokenType.PRODUCT, "*"), new GrammarSymbol("E")),
         List.of(new GrammarSymbol("E"), new Token(TokenType.LITERAL, "-")),
-        List.of(new GrammarSymbol("E"), new Token(TokenType.LEFT_PARENTHESIS, "("), new GrammarSymbol("E"),
-            new Token(TokenType.RIGHT_PARENTHESIS, ")")));
+        List.of(new GrammarSymbol("E"), new Token(TokenType.IDENTIFIER, "-")),
+        List.of(new GrammarSymbol("E"), new Token(TokenType.LEFT_PARENTHESIS, "("), new GrammarSymbol("E"), new Token(TokenType.RIGHT_PARENTHESIS, ")"))
+      );
 
     while (lexer.hasAnotherToken()) {
       Token t = lexer.getNextToken();
       if (t.getType() == TokenType.INVALID) {
         LOG.error("{} : {}", "INVALID LEXEME", "'" + t.getValue() + "' at line " + lexer.getCurrentLineNumber());
       } else {
-        LOG.info("[TokenType: {}] : {}", t.getType(), "'" + t.getValue() + "'");
 
         stack.add(t);
-        System.out.println("---");
-        stack.forEach(i -> System.out.print(i + " "));
-        System.out.println();
+
+        LOG.info("[SHIFT...    ] : {}", stack.stream().map(i -> i + "").collect(Collectors.joining(" ")));
         boolean hasChanged = true;
 
         while (hasChanged) {
@@ -71,13 +73,10 @@ public class LRParser implements IParser {
               }
 
               if (needsReduce) {
-                System.out.println("Reducing....");
                 hasChanged = true;
                 stack = stack.subList(0, stack.size() - grammar.size() + 1);
                 stack.add(grammar.get(0));
-                System.out.println("---");
-                stack.forEach(i -> System.out.print(i + " "));
-                System.out.println();
+                LOG.info("[REDUCING... ] : {}", stack.stream().map(i -> i + "").collect(Collectors.joining(" ")));
 
               }
             } catch (Exception e) {
@@ -86,16 +85,9 @@ public class LRParser implements IParser {
         }
       }
     }
-    stack.forEach(i -> System.out.print(i + " "));
-    System.out.println();
 
-    if (stack.size() == 1) {
-      System.out.println("Aceptado");
-    } else {
-      System.out.println("Rechazado");
-    }
 
-    return false;
+    return stack.size() == 1;
   }
 
 }

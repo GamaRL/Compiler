@@ -14,18 +14,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import mx.unam.ingenieria.compiladores.lexer.components.IParser;
 
 @SpringBootApplication
-public class LexerApplication implements ApplicationRunner {
+public class CompilerApplication implements ApplicationRunner {
 
-	private static Logger LOG = LoggerFactory.getLogger(LexerApplication.class);
+	private static Logger LOG = LoggerFactory.getLogger(CompilerApplication.class);
 
 	//private ILexer lexer;
 	private IParser parser;
 
 	public static void main(String[] args) {
-		SpringApplication.run(LexerApplication.class, args);
+		SpringApplication.run(CompilerApplication.class, args);
 	}
 
-	public LexerApplication(IParser parser) {
+	public CompilerApplication(IParser parser) {
 		this.parser = parser;
 	}
 
@@ -41,7 +41,11 @@ public class LexerApplication implements ApplicationRunner {
 			if (Files.exists(p)) {
 				LOG.info("args[{}]: {}", "file-path", "'" + args.getOptionValues("file-path").get(0) + "'");
 
-				parser.validate();
+				if(parser.validate()) {
+          LOG.info("STATUS: VALID");
+        } else {
+          LOG.error("STATUS: INVALID");
+        }
 			} else {
 				LOG.error("{} : {}", "Not found", "The sepecified file couldn't be found");
 			}
