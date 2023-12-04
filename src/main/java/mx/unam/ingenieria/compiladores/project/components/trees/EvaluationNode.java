@@ -1,5 +1,7 @@
 package mx.unam.ingenieria.compiladores.project.components.trees;
 
+import java.util.Map;
+
 import org.springframework.expression.EvaluationException;
 
 import mx.unam.ingenieria.compiladores.project.models.Token;
@@ -26,15 +28,17 @@ public class EvaluationNode {
     this.operand = operand;
   }
 
-  public int evaluate() {
+  public int evaluate(Map<String, Integer> variables) {
     if(terminal != null) {
       if(terminal.getType() == TokenType.LITERAL) {
         return Integer.parseInt(terminal.getValue().substring(1, terminal.getValue().length() - 1));
+      } else {
+        return variables.get(terminal.getValue());
       }
     } else if(operand.getType() == TokenType.PLUS) {
-      return left.evaluate() + right.evaluate();
+      return left.evaluate(variables) + right.evaluate(variables);
     } else if(operand.getType() == TokenType.PRODUCT) {
-      return left.evaluate() * right.evaluate();
+      return left.evaluate(variables) * right.evaluate(variables);
     }
     throw new EvaluationException("Unable to find this operation");
   }

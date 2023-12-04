@@ -1,5 +1,7 @@
 package mx.unam.ingenieria.compiladores.project.components.trees;
 
+import java.util.Map;
+
 public class EvaluationTree {
   private EvaluationNode root;
 
@@ -7,7 +9,7 @@ public class EvaluationTree {
     this.root = root;
   }
 
-  public int evaluate() {
-    return root.evaluate();
+  public int evaluate(Map<String, Integer> variables) {
+    return root.evaluate(variables);
   }
 }

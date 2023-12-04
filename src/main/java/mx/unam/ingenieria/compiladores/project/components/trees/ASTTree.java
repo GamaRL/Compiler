@@ -15,8 +15,8 @@ public class ASTTree {
     return new ASTTree(variable, ASTTreeType.ASSIGNMENT, tree);
   }
 
-  public static ASTTree asShow(Token variable, EvaluationTree tree) {
-    return new ASTTree(variable, ASTTreeType.SHOW, tree);
+  public static ASTTree asShow(Token variable) {
+    return new ASTTree(variable, ASTTreeType.SHOW, null);
   }
 
   private ASTTree(Token variable, ASTTreeType type, EvaluationTree tree) {

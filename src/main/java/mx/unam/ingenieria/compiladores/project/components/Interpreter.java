@@ -30,18 +30,22 @@ public class Interpreter implements ISemantics {
         var tree = parser.parseNextLine();
         var name = tree.getVariable().getValue();
         if (tree.getType() == ASTTreeType.DEFINITION) {
-          var value = tree.getEvaluation().evaluate();
-
+          var value = tree.getEvaluation().evaluate(variables);
           variables.put(name, value);
         } else if (tree.getType() == ASTTreeType.ASSIGNMENT) {
           if (variables.containsKey(name)) {
-            var value = tree.getEvaluation().evaluate();
+            var value = tree.getEvaluation().evaluate(variables);
             variables.put(name, value);
           } else {
             throw new UnknownkVariableException("Invalid identifier", parser.getCurrentLineNumber());
           }
         } else if (tree.getType() == ASTTreeType.SHOW) {
-          System.out.println(variables.get(name));
+          if (variables.containsKey(name)) {
+            var value = variables.get(name);
+            System.out.println(value);
+          } else {
+            throw new UnknownkVariableException("Invalid identifier", parser.getCurrentLineNumber());
+          }
         }
       }
     } catch (UnknownkVariableException ex) {

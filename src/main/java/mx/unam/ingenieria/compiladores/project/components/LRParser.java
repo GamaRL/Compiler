@@ -29,19 +29,16 @@ public class LRParser implements IParser {
 
     Token firstToken = lexer.getNextToken();
     if (firstToken.getType() == TokenType.IDENTIFIER) {
-      LOG.info("Un identificador");
       return EvaluationNode.asTerminal(firstToken);
     }
 
     if (firstToken.getType() == TokenType.LITERAL) {
-      LOG.info("Una literal");
       return EvaluationNode.asTerminal(firstToken);
     }
 
     if (firstToken.getType() == TokenType.LEFT_PARENTHESIS) {
       EvaluationNode left, right;
 
-      LOG.info("Una expresión");
 
       left = parseEvaluation();
 
@@ -116,6 +113,26 @@ public class LRParser implements IParser {
 
     return ASTTree.asAssignment(identifier, new EvaluationTree(evaluation));
   }
+
+  public ASTTree parseShow() throws InvalidFormatException {
+    Token identifier = null;
+    if(lexer.getCurrentToken().getType() != TokenType.SHOW) {
+      throw new InvalidFormatException("The SHOW operand was expected", lexer.getCurrentLineNumber());
+    }
+
+    if(lexer.hasAnotherToken() && lexer.getNextToken().getType() != TokenType.IDENTIFIER) {
+      throw new InvalidFormatException("An IDENTIFIER was expected", lexer.getCurrentLineNumber());
+    }
+
+    identifier = lexer.getCurrentToken();
+
+    if(lexer.hasAnotherToken() && lexer.getNextToken().getType() != TokenType.SEMICOLON) {
+      throw new InvalidFormatException("Semicolon was expected", lexer.getCurrentLineNumber());
+    }
+
+    return ASTTree.asShow(identifier);
+  }
+
   @Override
   public ASTTree parseNextLine() {
     lexer.getNextToken();
@@ -123,12 +140,14 @@ public class LRParser implements IParser {
 
     try {
       if (currentToken.getType() == TokenType.TYPE) {
-        LOG.info("Definition");
+        LOG.info("Parsing a declaration");
         return parseDeclaration();
-      }
-      if (currentToken.getType() == TokenType.IDENTIFIER) {
-        LOG.info("Assignment");
+      } else if (currentToken.getType() == TokenType.IDENTIFIER) {
+        LOG.info("Parsing an assignment");
         return parseAssingment();
+      } else if (currentToken.getType() == TokenType.SHOW) {
+        LOG.info("Parsing a showing");
+        return parseShow();
       } else {
         LOG.error("Invalid operation");
       }

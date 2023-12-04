@@ -23,6 +23,7 @@ public class RegexLexemeClassifier implements ILexemeClassifier {
   private static final Pattern leftParenthesisPattern = Pattern.compile("^\\($");
   private static final Pattern semicolonPattern = Pattern.compile("^;$");
   private static final Pattern typePattern = Pattern.compile("^@(int)$");
+  private static final Pattern showPattern = Pattern.compile("^@(show)$");
   private static final Pattern numericLiteralPattern = Pattern.compile("^\\[[0-9]+\\]$");
 
   /**
@@ -70,7 +71,10 @@ public class RegexLexemeClassifier implements ILexemeClassifier {
       return TokenType.LITERAL;
 
     if(typePattern.matcher(lexeme).matches())
-    return TokenType.TYPE;
+      return TokenType.TYPE;
+
+    if(showPattern.matcher(lexeme).matches())
+      return TokenType.SHOW;
 
     return TokenType.INVALID;
   }
