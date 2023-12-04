@@ -1,4 +1,4 @@
-package mx.unam.ingenieria.compiladores.project.components.trees;
+package mx.unam.ingenieria.compiladores.project.models.trees;
 
 import mx.unam.ingenieria.compiladores.project.models.Token;
 

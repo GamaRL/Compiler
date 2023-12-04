@@ -1,5 +1,5 @@
 @int $var2 =: (([10]*([50]+[30]))*[21]);
 $var2 =: ($var2 + [1]);
 @show $var2;
-@int $var =: ($var2 % [2]);
+@int $var =: ($var2 % [0]);
 @show $var;

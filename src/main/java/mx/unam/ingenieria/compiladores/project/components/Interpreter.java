@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import mx.unam.ingenieria.compiladores.project.components.trees.ASTTreeType;
+import mx.unam.ingenieria.compiladores.project.models.trees.ASTTreeType;
 import mx.unam.ingenieria.exceptions.InvalidFormatException;
 import mx.unam.ingenieria.exceptions.UnknownkVariableException;
 
@@ -53,7 +53,8 @@ public class Interpreter implements ISemantics {
       LOG.error(ex.getMessage());
     } catch (InvalidFormatException e) {
       LOG.error(e.getMessage());
+    } catch (ArithmeticException e) {
+      LOG.error(String.format("[%s] in line %d", e.getMessage(), parser.getCurrentLineNumber()));
     }
   }
-
 }

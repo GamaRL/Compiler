@@ -4,21 +4,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import mx.unam.ingenieria.compiladores.project.components.trees.ASTTree;
-import mx.unam.ingenieria.compiladores.project.components.trees.EvaluationNode;
-import mx.unam.ingenieria.compiladores.project.components.trees.EvaluationTree;
 import mx.unam.ingenieria.compiladores.project.models.Token;
 import mx.unam.ingenieria.compiladores.project.models.TokenType;
+import mx.unam.ingenieria.compiladores.project.models.trees.ASTTree;
+import mx.unam.ingenieria.compiladores.project.models.trees.EvaluationNode;
+import mx.unam.ingenieria.compiladores.project.models.trees.EvaluationTree;
 import mx.unam.ingenieria.exceptions.InvalidFormatException;
 
 @Service
-public class LRParser implements IParser {
+public class RecursiveParser implements IParser {
 
-  private static Logger LOG = LoggerFactory.getLogger(LRParser.class);
+  private static Logger LOG = LoggerFactory.getLogger(RecursiveParser.class);
 
   private ILexer lexer;
 
-  public LRParser(ILexer lexer) {
+  public RecursiveParser(ILexer lexer) {
     this.lexer = lexer;
   }
 
