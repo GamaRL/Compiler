@@ -19,6 +19,8 @@ public class FromFileLexer implements ILexer {
   private ILexemeExtractor extractor;
 	private ILexemeClassifier classifier;
 
+  private Token currentToken = null;
+
   @Value("${file-path:''}") // Injected value
   private String filePath;
 
@@ -84,7 +86,14 @@ public class FromFileLexer implements ILexer {
     // Classifies the first possible token of the list
     String currentToken = currentLineTokens.remove(0);
     TokenType type = classifier.getLexemeType(currentToken);
-    return new Token(type, currentToken);
+
+    this.currentToken = new Token(type, currentToken);
+    return this.currentToken;
+  }
+
+  @Override
+  public Token getCurrentToken() {
+    return this.currentToken;
   }
 }
 

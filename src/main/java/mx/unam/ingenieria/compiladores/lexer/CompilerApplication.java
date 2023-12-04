@@ -41,11 +41,7 @@ public class CompilerApplication implements ApplicationRunner {
 			if (Files.exists(p)) {
 				LOG.info("args[{}]: {}", "file-path", "'" + args.getOptionValues("file-path").get(0) + "'");
 
-				if(parser.validate()) {
-          LOG.info("STATUS: VALID");
-        } else {
-          LOG.error("STATUS: INVALID");
-        }
+				parser.parseNextLine();
 			} else {
 				LOG.error("{} : {}", "Not found", "The sepecified file couldn't be found");
 			}
