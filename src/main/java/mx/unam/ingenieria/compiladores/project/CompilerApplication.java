@@ -1,4 +1,4 @@
-package mx.unam.ingenieria.compiladores.lexer;
+package mx.unam.ingenieria.compiladores.project;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,7 +11,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import mx.unam.ingenieria.compiladores.lexer.components.IParser;
+import mx.unam.ingenieria.compiladores.project.components.IParser;
 
 @SpringBootApplication
 public class CompilerApplication implements ApplicationRunner {

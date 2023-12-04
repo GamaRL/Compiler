@@ -1,9 +1,9 @@
-package mx.unam.ingenieria.compiladores.lexer.components.trees;
+package mx.unam.ingenieria.compiladores.project.components.trees;
 
 import org.springframework.expression.EvaluationException;
 
-import mx.unam.ingenieria.compiladores.lexer.models.Token;
-import mx.unam.ingenieria.compiladores.lexer.models.TokenType;
+import mx.unam.ingenieria.compiladores.project.models.Token;
+import mx.unam.ingenieria.compiladores.project.models.TokenType;
 
 public class EvaluationNode {
   private Token terminal;

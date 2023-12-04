@@ -1,4 +1,4 @@
-package mx.unam.ingenieria.compiladores.lexer.components;
+package mx.unam.ingenieria.compiladores.project.components;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import mx.unam.ingenieria.compiladores.lexer.models.Token;
-import mx.unam.ingenieria.compiladores.lexer.models.TokenType;
+import mx.unam.ingenieria.compiladores.project.models.Token;
+import mx.unam.ingenieria.compiladores.project.models.TokenType;
 
 @Component
 public class FromFileLexer implements ILexer {

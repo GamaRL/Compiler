@@ -1,6 +1,6 @@
-package mx.unam.ingenieria.compiladores.lexer.components.trees;
+package mx.unam.ingenieria.compiladores.project.components.trees;
 
-import mx.unam.ingenieria.compiladores.lexer.models.Token;
+import mx.unam.ingenieria.compiladores.project.models.Token;
 
 public class ASTTree {
   private ASTTreeType type;

@@ -1,6 +1,6 @@
-package mx.unam.ingenieria.compiladores.lexer.components;
+package mx.unam.ingenieria.compiladores.project.components;
 
-import mx.unam.ingenieria.compiladores.lexer.models.Token;
+import mx.unam.ingenieria.compiladores.project.models.Token;
 
 public interface ILexer {
   boolean hasAnotherToken();

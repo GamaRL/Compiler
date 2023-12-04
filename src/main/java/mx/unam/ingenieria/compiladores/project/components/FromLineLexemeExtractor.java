@@ -1,4 +1,4 @@
-package mx.unam.ingenieria.compiladores.lexer.components;
+package mx.unam.ingenieria.compiladores.project.components;
 
 import java.util.ArrayList;
 import java.util.List;

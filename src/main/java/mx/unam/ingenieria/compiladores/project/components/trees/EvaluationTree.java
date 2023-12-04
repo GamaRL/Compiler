@@ -1,4 +1,4 @@
-package mx.unam.ingenieria.compiladores.lexer.components.trees;
+package mx.unam.ingenieria.compiladores.project.components.trees;
 
 public class EvaluationTree {
   private EvaluationNode root;

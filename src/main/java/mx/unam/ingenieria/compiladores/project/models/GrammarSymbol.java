@@ -1,4 +1,4 @@
-package mx.unam.ingenieria.compiladores.lexer.models;
+package mx.unam.ingenieria.compiladores.project.models;
 
 public class GrammarSymbol {
   protected String value;

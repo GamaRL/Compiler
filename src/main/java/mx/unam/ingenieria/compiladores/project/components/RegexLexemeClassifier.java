@@ -1,10 +1,10 @@
-package mx.unam.ingenieria.compiladores.lexer.components;
+package mx.unam.ingenieria.compiladores.project.components;
 
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
 
-import mx.unam.ingenieria.compiladores.lexer.models.TokenType;
+import mx.unam.ingenieria.compiladores.project.models.TokenType;
 
 @Component
 public class RegexLexemeClassifier implements ILexemeClassifier {
