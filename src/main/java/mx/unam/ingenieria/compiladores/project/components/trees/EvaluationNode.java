@@ -39,6 +39,10 @@ public class EvaluationNode {
       return left.evaluate(variables) + right.evaluate(variables);
     } else if(operand.getType() == TokenType.PRODUCT) {
       return left.evaluate(variables) * right.evaluate(variables);
+    } else if (operand.getType() == TokenType.DIVISION) {
+      return left.evaluate(variables) / right.evaluate(variables);
+    } else if (operand.getType() == TokenType.MODULO) {
+      return left.evaluate(variables) % right.evaluate(variables);
     }
     throw new EvaluationException("Unable to find this operation");
   }

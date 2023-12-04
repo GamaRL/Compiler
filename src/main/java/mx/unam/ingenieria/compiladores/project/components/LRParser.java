@@ -43,12 +43,13 @@ public class LRParser implements IParser {
       left = parseEvaluation();
 
       if (!lexer.hasAnotherToken()) {
-        throw new InvalidFormatException("An operand was expected", lexer.getCurrentLineNumber());
+        throw new InvalidFormatException("An operator was expected", lexer.getCurrentLineNumber());
       }
 
       Token opToken = lexer.getNextToken();
 
-      if(opToken.getType() == TokenType.PLUS || opToken.getType() == TokenType.PRODUCT) {
+      if(opToken.getType() == TokenType.PLUS || opToken.getType() == TokenType.PRODUCT ||
+        opToken.getType() == TokenType.DIVISION || opToken.getType() == TokenType.MODULO) {
 
         if (!lexer.hasAnotherToken()) {
           throw new InvalidFormatException("An operand was expected", lexer.getCurrentLineNumber());
@@ -134,27 +135,22 @@ public class LRParser implements IParser {
   }
 
   @Override
-  public ASTTree parseNextLine() {
+  public ASTTree parseNextLine() throws InvalidFormatException {
     lexer.getNextToken();
     Token currentToken = lexer.getCurrentToken();
 
-    try {
-      if (currentToken.getType() == TokenType.TYPE) {
-        LOG.info("Parsing a declaration");
-        return parseDeclaration();
-      } else if (currentToken.getType() == TokenType.IDENTIFIER) {
-        LOG.info("Parsing an assignment");
-        return parseAssingment();
-      } else if (currentToken.getType() == TokenType.SHOW) {
-        LOG.info("Parsing a showing");
-        return parseShow();
-      } else {
-        LOG.error("Invalid operation");
-      }
-    } catch (InvalidFormatException e) {
-      LOG.error(e.getMessage());
+    if (currentToken.getType() == TokenType.TYPE) {
+      LOG.info("Parsing a declaration");
+      return parseDeclaration();
+    } else if (currentToken.getType() == TokenType.IDENTIFIER) {
+      LOG.info("Parsing an assignment");
+      return parseAssingment();
+    } else if (currentToken.getType() == TokenType.SHOW) {
+      LOG.info("Parsing a showing");
+      return parseShow();
+    } else {
+      throw new InvalidFormatException("Invalid operation", getCurrentLineNumber());
     }
-    return null;
   }
 
   @Override

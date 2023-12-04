@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import mx.unam.ingenieria.compiladores.project.components.trees.ASTTreeType;
+import mx.unam.ingenieria.exceptions.InvalidFormatException;
 import mx.unam.ingenieria.exceptions.UnknownkVariableException;
 
 @Service
@@ -50,6 +51,8 @@ public class Interpreter implements ISemantics {
       }
     } catch (UnknownkVariableException ex) {
       LOG.error(ex.getMessage());
+    } catch (InvalidFormatException e) {
+      LOG.error(e.getMessage());
     }
   }
 
