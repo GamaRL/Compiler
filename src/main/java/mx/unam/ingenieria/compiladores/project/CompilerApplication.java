@@ -11,22 +11,21 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import mx.unam.ingenieria.compiladores.project.components.IParser;
+import mx.unam.ingenieria.compiladores.project.components.ISemantics;
 
 @SpringBootApplication
 public class CompilerApplication implements ApplicationRunner {
 
 	private static Logger LOG = LoggerFactory.getLogger(CompilerApplication.class);
 
-	//private ILexer lexer;
-	private IParser parser;
+	private ISemantics semantics;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CompilerApplication.class, args);
 	}
 
-	public CompilerApplication(IParser parser) {
-		this.parser = parser;
+	public CompilerApplication(ISemantics semantics) {
+		this.semantics = semantics;
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class CompilerApplication implements ApplicationRunner {
 			if (Files.exists(p)) {
 				LOG.info("args[{}]: {}", "file-path", "'" + args.getOptionValues("file-path").get(0) + "'");
 
-				parser.parseNextLine();
+				semantics.analizeNextLine();
 			} else {
 				LOG.error("{} : {}", "Not found", "The sepecified file couldn't be found");
 			}

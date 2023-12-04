@@ -1,7 +1,9 @@
 package mx.unam.ingenieria.compiladores.project.components;
 
+import mx.unam.ingenieria.compiladores.project.components.trees.ASTTree;
+
 public interface IParser {
-  void parseNextLine();
+  ASTTree parseNextLine();
   boolean hasNextLine();
   int getCurrentLineNumber();
 }

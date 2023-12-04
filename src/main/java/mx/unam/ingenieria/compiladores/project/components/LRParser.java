@@ -78,9 +78,10 @@ public class LRParser implements IParser {
     }
 
     if(lexer.hasAnotherToken() && lexer.getNextToken().getType() != TokenType.IDENTIFIER) {
-      identifier = lexer.getCurrentToken();
       throw new InvalidFormatException("An IDENTIFIER was expected", lexer.getCurrentLineNumber());
     }
+
+    identifier = lexer.getCurrentToken();
 
     if(lexer.hasAnotherToken() && lexer.getNextToken().getType() != TokenType.ASSIGN) {
       throw new InvalidFormatException("Assignment operator was expected", lexer.getCurrentLineNumber());
@@ -88,33 +89,53 @@ public class LRParser implements IParser {
 
     var evaluation = parseEvaluation();
 
-    // TODO: FIX
-    System.out.println(new EvaluationTree(evaluation).evaluate());
-
     if(lexer.hasAnotherToken() && lexer.getNextToken().getType() != TokenType.SEMICOLON) {
-      LOG.error("Semicolon was expected");
+      throw new InvalidFormatException("Semicolon was expected", lexer.getCurrentLineNumber());
     }
 
     return ASTTree.asDeclaration(identifier, new EvaluationTree(evaluation));
   }
 
-  @Override
-  public void parseNextLine() {
-    while (lexer.hasAnotherToken()) {
-      Token currentToken = lexer.getNextToken();
-
-      try {
-        if (currentToken.getType() == TokenType.TYPE) {
-          LOG.info("Assignment");
-          parseDeclaration();
-        } else {
-          LOG.error("Invalid operation");
-        }
-      } catch (InvalidFormatException e) {
-        LOG.error(e.getMessage());
-      }
-
+  public ASTTree parseAssingment() throws InvalidFormatException {
+    Token identifier = null;
+    if(lexer.getCurrentToken().getType() != TokenType.IDENTIFIER) {
+      throw new InvalidFormatException("An IDENTIFIER was expected", lexer.getCurrentLineNumber());
     }
+
+    identifier = lexer.getCurrentToken();
+
+    if(lexer.hasAnotherToken() && lexer.getNextToken().getType() != TokenType.ASSIGN) {
+      throw new InvalidFormatException("Assignment operator was expected", lexer.getCurrentLineNumber());
+    }
+
+    var evaluation = parseEvaluation();
+
+    if(lexer.hasAnotherToken() && lexer.getNextToken().getType() != TokenType.SEMICOLON) {
+      throw new InvalidFormatException("Semicolon was expected", lexer.getCurrentLineNumber());
+    }
+
+    return ASTTree.asAssignment(identifier, new EvaluationTree(evaluation));
+  }
+  @Override
+  public ASTTree parseNextLine() {
+    lexer.getNextToken();
+    Token currentToken = lexer.getCurrentToken();
+
+    try {
+      if (currentToken.getType() == TokenType.TYPE) {
+        LOG.info("Definition");
+        return parseDeclaration();
+      }
+      if (currentToken.getType() == TokenType.IDENTIFIER) {
+        LOG.info("Assignment");
+        return parseAssingment();
+      } else {
+        LOG.error("Invalid operation");
+      }
+    } catch (InvalidFormatException e) {
+      LOG.error(e.getMessage());
+    }
+    return null;
   }
 
   @Override
