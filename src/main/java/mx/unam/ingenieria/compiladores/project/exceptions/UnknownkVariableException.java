@@ -1,11 +1,11 @@
-package mx.unam.ingenieria.exceptions;
+package mx.unam.ingenieria.compiladores.project.exceptions;
 
-public class InvalidFormatException extends Exception {
+public class UnknownkVariableException extends Exception {
 
   private String message;
   private int line;
 
-  public InvalidFormatException(String message, int line) {
+  public UnknownkVariableException(String message, int line) {
     this.message = message;
     this.line = line;
   }

@@ -7,9 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import mx.unam.ingenieria.compiladores.project.exceptions.InvalidFormatException;
+import mx.unam.ingenieria.compiladores.project.exceptions.UnknownkVariableException;
 import mx.unam.ingenieria.compiladores.project.models.trees.ASTTreeType;
-import mx.unam.ingenieria.exceptions.InvalidFormatException;
-import mx.unam.ingenieria.exceptions.UnknownkVariableException;
 
 @Service
 public class Interpreter implements ISemantics {
